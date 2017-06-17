@@ -3,7 +3,7 @@
 #include "MathHelper.h"
 namespace Neural {	
 	using namespace std;
-	double MathHelper::Sigmoid(double x) {
+	double MathHelper::sigmoid(double x) {
 		return 1.0 / (1.0 + pow(M_E, -x));
 	}
 }

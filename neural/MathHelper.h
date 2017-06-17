@@ -2,6 +2,6 @@
 namespace Neural {
 	class MathHelper {
 	public:
-		static double Sigmoid(double x);
+		static double sigmoid(double x);
 	};
 }

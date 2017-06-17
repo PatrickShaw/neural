@@ -3,22 +3,22 @@
 #include <memory>
 namespace Neural {
 	using namespace std;
-	class NeuronC {
+	class Neuron {
 	private:
 		shared_ptr<vector<double>> weights;
 	public:
-		NeuronC(shared_ptr<vector<double>> weights);
-		double GetWeight(size_t weightIndex);
-		void AddWeight(double weight);
-		void RemoveNeuronWeight(size_t neuronIndex);
-		void SetWeights(shared_ptr<vector<double>> weights);
-		double GetNeuronWeight(size_t neuronIndex);
-		double GetThreshold();
-		void SetWeight(size_t weightIndex, double weight);
-		void SetThresholdWeight(double weight);
-		void SetNeuronWeight(size_t neuronIndex, double weight);
-		double GetOutput(const vector<double>& inputs);
-		size_t GetWeightSize();
-		shared_ptr<vector<double>> CloneWeights();
+		Neuron(shared_ptr<vector<double>> weights);
+		double weight(size_t weightIndex);
+		void push_weight(double weight);
+		void remove_weight(size_t neuronIndex);
+		void set_weights(shared_ptr<vector<double>> weights);
+		double neuron_weight(size_t neuronIndex);
+		double threshold();
+		void set_weight(size_t weightIndex, double weight);
+		void set_threshold(double weight);
+		void set_neuron_weight(size_t neuronIndex, double weight);
+		double output(const vector<double>& inputs);
+		size_t weight_size();
+		shared_ptr<vector<double>> clone_weights();
 	};
 }
