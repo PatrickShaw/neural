@@ -1,5 +1,5 @@
 #pragma once
-namespace Neural {
+namespace neural {
 	class MathHelper {
 	public:
 		static double sigmoid(double x);

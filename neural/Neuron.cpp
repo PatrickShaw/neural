@@ -1,6 +1,6 @@
 #include "Neuron.h"
 #include "MathHelper.h"
-namespace Neural {
+namespace neural {
 	Neuron::Neuron(shared_ptr<vector<double>> weights) {
 		this->weights = weights;
 	}

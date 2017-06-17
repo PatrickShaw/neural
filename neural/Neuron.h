@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <memory>
-namespace Neural {
+namespace neural {
 	using namespace std;
 	class Neuron {
 	private:
