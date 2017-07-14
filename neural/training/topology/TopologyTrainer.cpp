@@ -1,6 +1,15 @@
 #pragma once
 #include <memory>
 #include <vector>
-namespace neural::training::toplogy {
-  using namespace std;
+#include "./TopologyTrainer.h"
+namespace neural {
+	namespace training {
+		namespace toplogy {
+			using namespace std;
+			class TopologyTrainer {
+			public:
+				static NeuralNetwork configure_topology(SupervisedTrainer<NeuralNetwork> trainer, double[][] trainingInputs, double[][] trainingDesiredOutputs, double[][] testInputs, double[][] testDesiredOutputs);
+			};
+		}
+	}
 }
