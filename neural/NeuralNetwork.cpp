@@ -78,6 +78,10 @@ namespace neural {
       return outputs;
     }
 
+    shared_ptr<vector<shared_ptr<Neuron>>> NeuralNetwork::layer(size_t layerIndex) {
+      return this->neurons->at(layerIndex);
+    }
+
     size_t NeuralNetwork::neuron_size(size_t layerIndex) {
       return this->layer(layerIndex)->size();
     }
