@@ -5,14 +5,14 @@
 #include <random>
 namespace neural {
   using namespace std;
-  class NeuralNetwork : Classifier {
+  class NeuralNetwork : public Classifier {
   private:
     shared_ptr<vector<shared_ptr<vector<shared_ptr<Neuron>>>>> neurons;
   protected:
     NeuralNetwork(const NeuralNetwork& network);
     std::shared_ptr<std::vector<std::shared_ptr<Neuron>>> NeuralNetwork::layer(size_t layerIndex);
   public:
-    NeuralNetwork(size_t inputCount, const vector<int>& neuralCounts);
+    NeuralNetwork(size_t inputCount, const vector<size_t>& neuralCounts);
     size_t layer_size();
     double threshold_to_result_in_zero();
     double inactive_neuron_weight();
