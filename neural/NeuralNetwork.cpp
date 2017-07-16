@@ -10,7 +10,15 @@ namespace neural {
       }
     }
 
-    NeuralNetwork::NeuralNetwork(size_t inputCount, const vector<int>& neuralCounts) {
+	size_t NeuralNetwork::input_size() {
+		return this->neuron_size(0);
+	}
+
+	size_t NeuralNetwork::output_size() {
+		return this->neuron_size(this->layer_size() - 1);
+	}
+
+    NeuralNetwork::NeuralNetwork(size_t inputCount, const vector<size_t>& neuralCounts) {
       if (neuralCounts.size() < 1) { throw; }
       this->neurons = make_shared<vector<shared_ptr<vector<shared_ptr<Neuron>>>>>(neuralCounts.size());
       this->neurons->at(0) = make_shared<vector<shared_ptr<Neuron>>>(neuralCounts.at(0));
@@ -25,6 +33,18 @@ namespace neural {
         }
       }
     }
+
+	shared_ptr<Neuron> NeuralNetwork::neuron(size_t layerIndex, size_t neuronIndex) {
+		return this->layer(layerIndex)->at(neuronIndex);
+	}
+
+	double NeuralNetwork::weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex) {
+		return this->neuron(neuronIndex, layerIndex)->weight(weightIndex);
+	}
+
+	void NeuralNetwork::set_weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex, double weight) {
+		this->neuron(neuronIndex, layerIndex)->set_weight(weightIndex, weight);
+	}
 
     size_t NeuralNetwork::layer_size() {
       return this->neurons->size();
@@ -60,11 +80,11 @@ namespace neural {
       return weights;
     }
 
-    shared_ptr<vector<double>> NeuralNetwork::raw_outputs(vector<double>& inputs) {
+    shared_ptr<vector<double>> NeuralNetwork::raw_outputs(const vector<double>& inputs) {
       return this->all_outputs(inputs)->at(0);
     }
 
-    shared_ptr<vector<shared_ptr<vector<double>>>> NeuralNetwork::all_outputs(vector<double>& inputs) {
+    shared_ptr<vector<shared_ptr<vector<double>>>> NeuralNetwork::all_outputs(const vector<double>& inputs) {
       shared_ptr<vector<shared_ptr<vector<double>>>> outputs = make_shared<vector<shared_ptr<vector<double>>>>(this->neurons->size());
       outputs->at(0) = make_shared<vector<double>>(this->neurons->at(0)->size());
       for (size_t n = 0; n < this->neurons->at(0)->size(); n++) {

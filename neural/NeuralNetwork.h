@@ -10,18 +10,24 @@ namespace neural {
     shared_ptr<vector<shared_ptr<vector<shared_ptr<Neuron>>>>> neurons;
   protected:
     NeuralNetwork(const NeuralNetwork& network);
-    std::shared_ptr<std::vector<std::shared_ptr<Neuron>>> NeuralNetwork::layer(size_t layerIndex);
+    shared_ptr<vector<shared_ptr<Neuron>>> NeuralNetwork::layer(size_t layerIndex);
+	shared_ptr<Neuron> neuron(size_t layerIndex, size_t neuronIndex);
   public:
     NeuralNetwork(size_t inputCount, const vector<size_t>& neuralCounts);
-    size_t layer_size();
+	double weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex);
+	void set_weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex, double weight);
+	size_t layer_size();
     double threshold_to_result_in_zero();
     double inactive_neuron_weight();
     void randomize_weights(double min, double max);
+	void set_weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex, double weight);
     shared_ptr<vector<double>> create_inactive_neuron_weights(size_t weightCount);
-    shared_ptr<vector<double>> raw_outputs(vector<double>& inputs);
-    shared_ptr<vector<shared_ptr<vector<double>>>> all_outputs(vector<double>& inputs);
+    shared_ptr<vector<double>> raw_outputs(const vector<double>& inputs);
+    shared_ptr<vector<shared_ptr<vector<double>>>> all_outputs(const vector<double>& inputs);
     size_t neuron_size(size_t layerIndex);
-    /**
+	size_t input_size();
+	size_t output_size();
+		/**
      * Inserts a layer into the given index with the same neuron count as the previous layer. 
      * Each neuron in the layer only acknowledges the input of the neuron from the previous layer with the same index.
      * Warning: This will affect the output values of the network.
