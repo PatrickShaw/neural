@@ -9,7 +9,7 @@ namespace neural {
 		this->weights->push_back(weight);
 	}
 
-	void Neuron::remove_weight(size_t neuronIndex) {
+	void Neuron::remove_neuron_weight(size_t neuronIndex) {
 		size_t weightIndex = neuronIndex + 1;
 		this->weights->erase(this->weights->begin() + weightIndex);
 	}

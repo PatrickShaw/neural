@@ -10,7 +10,7 @@ namespace neural {
 		Neuron(shared_ptr<vector<double>> weights);
 		double weight(size_t weightIndex);
 		void push_weight(double weight);
-		void remove_weight(size_t neuronIndex);
+    void remove_neuron_weight(size_t weightIndex);
 		void set_weights(shared_ptr<vector<double>> weights);
 		double neuron_weight(size_t neuronIndex);
 		double threshold();
