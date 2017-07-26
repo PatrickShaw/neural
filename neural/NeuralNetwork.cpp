@@ -5,7 +5,7 @@ namespace neural {
       for (size_t l = 0; l < this->neurons->size(); l++) {
         this->neurons->at(l) = make_shared<vector<shared_ptr<Neuron>>>(network.neurons->at(l)->size());
         for (size_t n = 0; n < this->neurons->at(l)->size(); n++) {
-          this->neurons->at(l)->at(n) = make_shared<shared_ptr<Neuron>>(network.neurons->at(l)->at(n)->clone_weights());
+          this->neurons->at(l)->at(n) = make_shared<Neuron>(network.neurons->at(l)->at(n)->clone_weights());
         }
       }
     }
@@ -124,8 +124,8 @@ namespace neural {
       size_t originalLayerLength = neurons->at(layerIndex)->size();
       if (originalLayerLength <= 1) {
         this->remove_layer(layerIndex);
-      } else {
-        shared_ptr<vector<shared_ptr<Neuron>>> newLayer = make_shared<vector<shared_ptr<Neuron>>>(originalLayerLength - 1);
+      } else {        
+		shared_ptr<vector<shared_ptr<Neuron>>> newLayer = make_shared<vector<shared_ptr<Neuron>>>(originalLayerLength - 1);
         for (size_t n = 0; n < neuronIndex; n++) {
           newLayer->at(n) = this->neurons->at(layerIndex)->at(n);
         }
@@ -209,6 +209,9 @@ namespace neural {
     }
 
     shared_ptr<NeuralNetwork> NeuralNetwork::produce_new_neural_network() {
-      return make_shared<NeuralNetwork>(this);
+      return make_shared<NeuralNetwork>(*this);
     }
+	shared_ptr<vector<double>> NeuralNetwork::classify(const vector<double>& inputs) {
+      return this->raw_outputs(inputs);
+	}
 }

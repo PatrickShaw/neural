@@ -1,6 +1,3 @@
-#pragma once
-#include <memory>
-#include <vector>
 #include "./StandardBackpropagationTrainer.h"
 namespace neural {
 	namespace training {
@@ -69,7 +66,7 @@ namespace neural {
 				const vector<double>& trainingInputs, 
 				const vector<double>& trainingOutputs
 			) {
-				
+				this->backpropagation(trainable, trainingInputs, trainingOutputs);
 			}
 		}
 	}
