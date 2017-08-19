@@ -1,8 +1,8 @@
 #pragma once
 #include <vector>
 #include <memory>
+using namespace std;
 namespace neural {
-  using namespace std;
   class Classifier {
   public:
 	/**

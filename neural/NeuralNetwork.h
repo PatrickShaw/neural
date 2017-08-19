@@ -3,8 +3,8 @@
 #include "Classifier.h"
 #include <memory>
 #include <random>
+using namespace std;
 namespace neural {
-  using namespace std;
   /**
    * A standard sigmoid feed-forward neural network.
    * TODO: Possible have a Layer class? 
