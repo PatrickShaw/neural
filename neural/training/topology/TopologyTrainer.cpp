@@ -10,7 +10,7 @@ namespace neural {
 				const vector<vector<double>>& testDesiredOutputs
 			) {
 				vector<size_t> initialTopology = { trainingInputs[0].size(), trainingDesiredOutputs[0].size() };
-				shared_ptr<NeuralNetwork> untrainedStubNetwork = make_shared<NeuralNetwork>(trainingInputs[0].size(), &initialTopology);
+				shared_ptr<NeuralNetwork> untrainedStubNetwork = make_shared<NeuralNetwork>(trainingInputs[0].size(), initialTopology);
 				shared_ptr<NeuralNetwork> trainedStubNetwork = untrainedStubNetwork->produce_new_neural_network();
 				TopologyTrainer::train<NeuralNetwork>(trainer, *trainedStubNetwork, trainingInputs, trainingDesiredOutputs);
 				double stubNetworkError = TopologyTrainer::total_error(*trainedStubNetwork, trainingInputs, trainingDesiredOutputs) + TopologyTrainer::total_error(*trainedStubNetwork, testInputs, testDesiredOutputs);

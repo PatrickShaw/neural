@@ -3,10 +3,10 @@
 #include <vector>
 #include "../SupervisedTrainer.h"
 #include "../../NeuralNetwork.h"
+using namespace std;
 namespace neural {
 	namespace training {
 		namespace backpropagation {
-			using namespace std;
 			/**
 			 * A supervised trainer that uses standard backpropgation to train a NeuralNetwork
 			 */

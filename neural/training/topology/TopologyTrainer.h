@@ -4,10 +4,10 @@
 #include "../../NeuralNetwork.h"
 #include "../SupervisedTrainer.h"
 #include "../../Classifier.h"
+using namespace std;
 namespace neural {
 	namespace training {
 		namespace topology {
-			using namespace std;
 			/**
 			 * The TopologyTrainer intends to create a basic method of configuring the topology of a NeuralNetwork with 
 			 * the help of a SupervisedTrainer.

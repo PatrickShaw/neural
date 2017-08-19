@@ -1,9 +1,9 @@
 #pragma once
 #include <memory>
 #include <vector>
+using namespace std;
 namespace neural {
 	namespace training {
-		using namespace std;
 		/**
 		 * A machine learning supervised trainer. Trains an object to output a set of value for a given set of inputs.
 	     */
