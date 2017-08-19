@@ -27,7 +27,7 @@ namespace neural {
       }
       for (size_t l = 1; l < neuralCounts.size(); l++) {
         this->neurons->at(l) = make_shared<vector<shared_ptr<Neuron>>>(neuralCounts.at(l));
-        for (int n = 0; n < neurons->at(l)->size(); n++) {
+        for (size_t n = 0; n < neurons->at(l)->size(); n++) {
           size_t weight_size = this->neurons->at(l - 1)->size();
           this->neurons->at(l)->at(n) = make_shared<Neuron>(this->create_inactive_neuron_weights(weight_size));
         }
@@ -167,7 +167,7 @@ namespace neural {
 
     void NeuralNetwork::add_non_output_neuron(size_t layerIndex, shared_ptr<Neuron> neuron, const vector<double>& outputWeights) {
       this->neurons->at(layerIndex)->push_back(neuron);
-      for (int n2 = 0; n2 < this->neurons->at(layerIndex + 1)->size(); n2++) {
+      for (size_t n2 = 0; n2 < this->neurons->at(layerIndex + 1)->size(); n2++) {
         this->neurons->at(layerIndex + 1)->at(n2)->push_weight(outputWeights.at(n2));
       }
     }

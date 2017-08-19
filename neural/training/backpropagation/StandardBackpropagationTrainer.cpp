@@ -32,7 +32,7 @@ namespace neural {
 				}
 				// Now we actually modify the the weights of the neurons.
 				// The first layer is a special case it doesn't have any previous layers to deal with.
-				for (int n = 0; n < neuralNetwork.input_size(); n++) {
+				for (size_t n = 0; n < neuralNetwork.input_size(); n++) {
 					// Modify the threshold's weight
 					// The threshold/bias takes a -1 as input
 					double newThresholdWeight = neuralNetwork.weight(0, n, 0);
@@ -47,7 +47,7 @@ namespace neural {
 					}
 				}
 				// Now modify the weights for the other neural networks.
-				for (int l = 1; l < neuralNetwork.layer_size(); l++) {
+				for (size_t l = 1; l < neuralNetwork.layer_size(); l++) {
 					for (size_t n = 0; n < neuralNetwork.neuron_size(l); n++) {
 						double newThresholdWeight = neuralNetwork.weight(l, n, 0);
 						newThresholdWeight -= learningRateFactor * weirdDThing.at(l).at(n) * -1;
@@ -61,6 +61,7 @@ namespace neural {
 					}
 				}
 			}
+
 			void StandardBackpropagationTrainer::train(
 				NeuralNetwork& trainable, 
 				const vector<double>& trainingInputs, 

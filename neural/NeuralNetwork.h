@@ -125,7 +125,7 @@ namespace neural {
 	/**
 	 * Produces a new neural network.
 	 */
-    shared_ptr<NeuralNetwork> produce_new_neural_network();
+	shared_ptr<NeuralNetwork> produce_new_neural_network();
 	shared_ptr<vector<double>> classify(const vector<double>& inputs);
   };
 }
