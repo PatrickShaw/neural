@@ -32,6 +32,7 @@ namespace neural {
 	 */
 	NeuralNetwork(const NeuralNetwork& network);
 	NeuralNetwork(size_t inputCount, const vector<size_t>& neuralCounts);
+	size_t weight_size(size_t layerIndex, size_t neuronIndex);
 	/**
 	 * The weight of a neuron.
 	 * @param layerIndex

@@ -21,31 +21,34 @@ namespace neural {
     NeuralNetwork::NeuralNetwork(size_t inputCount, const vector<size_t>& neuralCounts) {
       if (neuralCounts.size() < 1) { throw; }
       this->neurons = make_shared<vector<shared_ptr<vector<shared_ptr<Neuron>>>>>(neuralCounts.size());
-      this->neurons->at(0) = make_shared<vector<shared_ptr<Neuron>>>(neuralCounts.at(0));
-      
-	  for (size_t n = 0; n < neurons->at(0)->size(); n++) {
+      this->neurons->at(0) = make_shared<vector<shared_ptr<Neuron>>>(neuralCounts.at(0));  
+		  for (size_t n = 0; n < neurons->at(0)->size(); n++) {
         this->neurons->at(0)->at(n) = make_shared<Neuron>(this->create_inactive_neuron_weights(inputCount + 1));
-      }
+      }	
 
       for (size_t l = 1; l < neuralCounts.size(); l++) {
         this->neurons->at(l) = make_shared<vector<shared_ptr<Neuron>>>(neuralCounts.at(l));
+				size_t weight_size = this->neurons->at(l - 1)->size() + 1;
         for (size_t n = 0; n < neurons->at(l)->size(); n++) {
-          size_t weight_size = this->neurons->at(l - 1)->size();
           this->neurons->at(l)->at(n) = make_shared<Neuron>(this->create_inactive_neuron_weights(weight_size));
         }
       }
     }
+
+	size_t NeuralNetwork::weight_size(size_t layerIndex, size_t neuronIndex) {
+		return this->neuron(layerIndex, neuronIndex)->weight_size();
+	}
 
 	shared_ptr<Neuron> NeuralNetwork::neuron(size_t layerIndex, size_t neuronIndex) {
 		return this->layer(layerIndex)->at(neuronIndex);
 	}
 
 	double NeuralNetwork::weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex) {
-		return this->neuron(neuronIndex, layerIndex)->weight(weightIndex);
+		return this->neuron(layerIndex, neuronIndex)->weight(weightIndex);
 	}
 
 	void NeuralNetwork::set_weight(size_t layerIndex, size_t neuronIndex, size_t weightIndex, double weight) {
-		this->neuron(neuronIndex, layerIndex)->set_weight(weightIndex, weight);
+		this->neuron(layerIndex, neuronIndex)->set_weight(weightIndex, weight);
 	}
 
     size_t NeuralNetwork::layer_size() {
@@ -63,7 +66,7 @@ namespace neural {
     void NeuralNetwork::randomize_weights(double min, double max) {
       std::random_device rd;
       std::mt19937 gen(rd());
-      uniform_real_distribution<double> dist(-6, 6);
+      uniform_real_distribution<double> dist(-6, 6);	
       for (size_t l = 0; l < this->neurons->size(); l++) {
         for (size_t n = 0; n < neurons->at(l)->size(); n++) {
           for (size_t w = 0; w < neurons->at(l)->at(n)->weight_size(); w++) {
@@ -83,19 +86,21 @@ namespace neural {
     }
 
     shared_ptr<vector<double>> NeuralNetwork::raw_outputs(const vector<double>& inputs) {
-      return this->all_outputs(inputs)->at(0);
+      shared_ptr<vector<shared_ptr<vector<double>>>> outputs = this->all_outputs(inputs);
+			return outputs->at(outputs->size() - 1);
     }
 
     shared_ptr<vector<shared_ptr<vector<double>>>> NeuralNetwork::all_outputs(const vector<double>& inputs) {
       shared_ptr<vector<shared_ptr<vector<double>>>> outputs = make_shared<vector<shared_ptr<vector<double>>>>(this->neurons->size());
       outputs->at(0) = make_shared<vector<double>>(this->neurons->at(0)->size());
       for (size_t n = 0; n < this->neurons->at(0)->size(); n++) {
-        this->neurons->at(0)->at(n)->output(inputs);
+        outputs->at(0)->at(n) = this->neurons->at(0)->at(n)->output(inputs);
       }
-      for (size_t l = 1; l < this->neurons->size(); l++) {
-        for (size_t n = 0; n < this->neurons->at(n)->size(); n++) {
-          this->neurons->at(l)->at(n)->output(*outputs->at(l - 1));
-        }
+			for (size_t l = 1; l < this->neurons->size(); l++) {
+				outputs->at(l) = make_shared<vector<double>>(this->neurons->at(l)->size());
+				for (size_t n = 0; n < this->neurons->at(l)->size(); n++) {
+					outputs->at(l)->at(n) = this->neurons->at(l)->at(n)->output(*outputs->at(l - 1));
+				}
       }
       return outputs;
     }
@@ -215,6 +220,6 @@ namespace neural {
     }
 
 	shared_ptr<vector<double>> NeuralNetwork::classify(const vector<double>& inputs) {
-      return this->raw_outputs(inputs);
+    return this->raw_outputs(inputs);
 	}
 }
