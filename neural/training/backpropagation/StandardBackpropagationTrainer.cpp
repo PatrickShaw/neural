@@ -19,13 +19,13 @@ namespace neural {
 					double neuronOutput = outputs->at(outputs->size() - 1)->at(n);
 					weirdDThing.at(weirdDThing.size() - 1).at(n) = (neuronOutput - desiredOutputs[n]) * neuronOutput * (1 - neuronOutput);
 				}
-				for (size_t l = outputs->size() - 2; l >= 0; l--) {
+				for (long long l = outputs->size() - 2; l --> 0;) {
 					size_t inputLength = neuralNetwork.neuron_size(l);
 					for (size_t n = 0; n < inputLength; n++) {
 						double neuronOutput = outputs->at(l)->at(n);
 						double sumThing = 0;
 						for (size_t n2 = 0; n2 < neuralNetwork.neuron_size(l + 1); n2++) {
-							sumThing += weirdDThing.at(l + 1).at(n2) * neuralNetwork.weight(l, n2, n);
+							sumThing += weirdDThing.at(l + 1).at(n2) * neuralNetwork.weight(l + 1, n2, n);
 						}
 						weirdDThing[l][n] = sumThing * neuronOutput * (1 - neuronOutput);
 					}
@@ -54,9 +54,9 @@ namespace neural {
 						neuralNetwork.set_weight(l, n, 0, newThresholdWeight);
 						for (size_t n2 = 0; n2 < neuralNetwork.neuron_size(l - 1); n2++) {
 							size_t weightIndex = n2 + 1;
-							double newNeuronToNeuronWeight = neuralNetwork.weight(l - 1, n2, weightIndex);
+							double newNeuronToNeuronWeight = neuralNetwork.weight(l, n, weightIndex);
 							newNeuronToNeuronWeight -= learningRateFactor * weirdDThing.at(l).at(n) * outputs->at(l - 1)->at(n2);
-							neuralNetwork.set_weight(l-1, n2, weightIndex, newNeuronToNeuronWeight);
+							neuralNetwork.set_weight(l, n, weightIndex, newNeuronToNeuronWeight);
 						}
 					}
 				}
