@@ -8,7 +8,7 @@ namespace neural {
 		 * A machine learning supervised trainer. Trains an object to output a set of value for a given set of inputs.
 	     */
 		template<typename T>
-	    class SupervisedTrainer {
+	  class SupervisedTrainer {
 		public:
 			/**
 			* Trains a given trainable entity to output a certain set of outputs, given a certain set of inputs.

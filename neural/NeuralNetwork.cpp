@@ -168,53 +168,6 @@ namespace neural {
       this->neurons->insert(this->neurons->begin() + layerIndex, layer);
     }
 
-    void NeuralNetwork::add_output_neuron(shared_ptr<Neuron> neuron) {
-      this->neurons->at(this->neurons->size() - 1)->push_back(neuron);
-    }
-
-    void NeuralNetwork::add_non_output_neuron(size_t layerIndex, shared_ptr<Neuron> neuron, const vector<double>& outputWeights) {
-      this->neurons->at(layerIndex)->push_back(neuron);
-      for (size_t n2 = 0; n2 < this->neurons->at(layerIndex + 1)->size(); n2++) {
-        this->neurons->at(layerIndex + 1)->at(n2)->push_weight(outputWeights.at(n2));
-      }
-    }
-
-    /**
-    * Splits a neuron into 2 that produce half the output of the original neuron.
-    * This effectively adds a neuron without causing the network's behaviour/outputs to change.
-    **/
-    void NeuralNetwork::split_neuron_non_destructive(size_t layerIndex, size_t neuronIndex) {
-      shared_ptr<Neuron> duplicatedNeuron = make_shared<Neuron>(this->neurons->at(layerIndex)->at(neuronIndex)->clone_weights());
-      if (layerIndex == this->neurons->size() - 1) {
-        this->add_output_neuron(duplicatedNeuron);
-      } else {
-        vector<double> outputWeights(this->neurons->at(layerIndex + 1)->size());
-        for (size_t n2 = 0; n2 < this->neurons->at(layerIndex + 1)->size(); n2++) {
-          double halvedWeight = neurons->at(layerIndex + 1)->at(n2)->neuron_weight(neuronIndex);
-          outputWeights.at(n2) = halvedWeight;
-          this->neurons->at(layerIndex + 1)->at(n2)->set_neuron_weight(neuronIndex, halvedWeight);
-        }
-        this->add_non_output_neuron(layerIndex, duplicatedNeuron, outputWeights);
-      }
-    }
-
-    /**
-    * Adds a new neuron that is not affected by any neurons from the previous layer and outputs 0 (i.e. always outputs 0).
-    * This effectively adds a neuron without causing the network's behaviour/outputs to change.
-    */
-    void NeuralNetwork::add_neuron_non_destructive(size_t layerIndex) {
-      size_t weightsLength = layerIndex == 0 ? 2 : this->neurons->at(layerIndex - 1)->size() + 1;
-      shared_ptr<vector<double>> neuronWeights = make_shared<vector<double>>(weightsLength);
-      neuronWeights->at(0) = this->threshold_to_result_in_zero();
-      shared_ptr<Neuron> addedNeuron = make_shared<Neuron>(neuronWeights);
-      if (layerIndex == neurons->size() - 1) {
-        this->add_output_neuron(addedNeuron);
-      } else {
-        vector<double> outputWeights(this->neurons->at(layerIndex + 1)->size());
-        this->add_non_output_neuron(layerIndex, addedNeuron, outputWeights);
-      }
-    }
-
     shared_ptr<NeuralNetwork> NeuralNetwork::produce_new_neural_network() {
       return make_shared<NeuralNetwork>(*this);
     }
